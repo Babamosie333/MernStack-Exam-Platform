@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Admin dashboard for MCQ Test Platform." />
+  <title>Dashboard - Admin</title>
+  <link rel="stylesheet" href="/css/admin.css" />
+  <style>
+    .dashboard-visual{display:grid;gap:1rem}
+    .dashboard-hero-row{display:flex;justify-content:space-between;align-items:flex-start;padding:.5rem 0 .25rem}
+    .dashboard-greeting h1{font-size:clamp(2rem,4vw,3rem);font-style:italic;font-weight:800;margin:0;color:#1f2a37}
+    .dashboard-greeting p{font-size:1.2rem;font-weight:700;margin-top:.35rem;color:#111827}
+    .dashboard-date{text-align:right}
+    .dashboard-date span{display:block;color:var(--muted);font-style:italic}
+    .dashboard-date strong{font-size:2rem;color:#243b68}
+    .dashboard-grid{display:grid;grid-template-columns:1.6fr .95fr;gap:1rem;align-items:start}
+    .dashboard-card{background:rgba(255,255,255,.96);border:1px solid var(--border);border-radius:18px;box-shadow:var(--shadow)}
+    .dashboard-main-card,.dashboard-bottom-card{padding:1rem 1.15rem 1.2rem}
+    .card-title{font-weight:800;color:#1f2937;margin-bottom:.75rem}
+    .chart-box{width:100%;height:300px}
+    .chart-box-bar{height:240px}
+    .dashboard-metrics{display:grid;grid-template-columns:1fr;gap:.6rem;text-align:center;margin-top:.5rem}
+    .dashboard-metrics strong{display:block;font-size:1.8rem;color:#1f2a37}
+    .dashboard-metrics span{display:block;font-size:.85rem;color:var(--muted)}
+    .dashboard-side-stack{display:grid;gap:1rem}
+    .dashboard-small-card{padding:1rem}
+    .icon-box{display:grid;place-items:center;font-size:2rem;min-height:60px;margin:.4rem 0 .8rem}
+    .action-btn{display:inline-block;width:100%;text-align:center;background:linear-gradient(135deg,#57bfc0,#4fb2b5);color:#fff;padding:.75rem 1rem;border-radius:999px;font-weight:700}
+    @media (max-width:900px){.dashboard-grid{grid-template-columns:1fr}.dashboard-hero-row{flex-direction:column;gap:.75rem}.dashboard-date{text-align:left}}
+  </style>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <h2>Admin Panel</h2>
+      <nav aria-label="Admin navigation">
+        <a href="/admin/dashboard.html" class="active">Dashboard</a>
+        <a href="/admin/subjects.html">Subjects</a>
+        <a href="/admin/tests.html">Tests</a>
+        <a href="/admin/questions.html">Questions</a>
+        <a href="/admin/import.html">Excel Import</a>
+        <a href="/admin/results.html">Results</a>
+        <a href="/">Student Site</a>
+      </nav>
+    </aside>
+
+    <main class="admin-main">
+      <header class="admin-topbar">
+        <div>
+          <p class="page-subtitle">Overview and recent activity</p>
+          <h1>Dashboard</h1>
+        </div>
+        <div class="admin-actions">
+          <span id="adminUser" class="admin-user"></span>
+          <button class="btn btn-secondary btn-sm" id="logoutBtn">Logout</button>
+        </div>
+      </header>
+
+      <div id="statsGrid" class="stats-grid"></div>
+
+      <section class="dashboard-card dashboard-bottom-card" style="margin-top:1rem;padding:1rem;">
+        <div class="card-title">Recent Results</div>
+        <div class="table-wrap">
+          <table class="data-table" id="recentTable">
+            <thead>
+              <tr>
+                <th>Student</th>
+                <th>Phone</th>
+                <th>Subject</th>
+                <th>Chapter</th>
+                <th>Score</th>
+                <th>Pass/Fail</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="/admin/js/admin-api.js"></script>
+  <script src="/admin/js/dashboard.js"></script>
+</body>
+</html>

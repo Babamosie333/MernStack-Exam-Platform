@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Import Excel questions into the MCQ admin panel." />
+  <title>Excel Import - Admin</title>
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <h2>Admin Panel</h2>
+      <nav>
+        <a href="/admin/dashboard.html">Dashboard</a>
+        <a href="/admin/subjects.html">Subjects</a>
+        <a href="/admin/tests.html">Tests</a>
+        <a href="/admin/questions.html">Questions</a>
+        <a href="/admin/import.html" class="active">Excel Import</a>
+        <a href="/admin/results.html">Results</a>
+      </nav>
+    </aside>
+
+    <main class="admin-main">
+      <div class="admin-topbar">
+        <div>
+          <h1>Excel Question Import</h1>
+          <p class="page-subtitle">
+            Upload a spreadsheet and convert rows into questions quickly.
+          </p>
+        </div>
+      </div>
+
+      <div class="admin-grid-two">
+        <section class="stat-card import-info">
+          <h2>File format</h2>
+          <p>
+            Use an Excel file with these columns:
+            <strong>subject, test_title, question, option_a, option_b, option_c, option_d, correct_option, marks</strong>
+          </p>
+
+          <div class="import-steps">
+            <div class="import-step">
+              <span>1</span>
+              <p>Prepare the sheet with the required columns.</p>
+            </div>
+            <div class="import-step">
+              <span>2</span>
+              <p>Choose your `.xlsx` or `.xls` file.</p>
+            </div>
+            <div class="import-step">
+              <span>3</span>
+              <p>Upload and review the import summary.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="form-panel import-panel">
+          <h2>Import Questions</h2>
+          <p class="form-hint">Select your file and start the import process.</p>
+
+          <div id="alert"></div>
+
+          <form id="importForm">
+            <div class="form-group">
+              <label for="file">Excel File</label>
+              <input type="file" id="file" accept=".xlsx,.xls" required />
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">Import Questions</button>
+          </form>
+        </section>
+      </div>
+
+      <section id="summary" class="import-summary hidden" aria-live="polite"></section>
+    </main>
+  </div>
+
+  <script src="/admin/js/admin-api.js"></script>
+  <script src="/admin/js/import.js"></script>
+</body>
+</html>

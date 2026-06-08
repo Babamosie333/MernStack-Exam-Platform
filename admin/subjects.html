@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Manage subjects in the MCQ admin panel." />
+  <title>Subjects - Admin</title>
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <h2>Admin Panel</h2>
+      <nav aria-label="Admin navigation">
+        <a href="/admin/dashboard.html">Dashboard</a>
+        <a href="/admin/subjects.html" class="active">Subjects</a>
+        <a href="/admin/tests.html">Tests</a>
+        <a href="/admin/questions.html">Questions</a>
+        <a href="/admin/import.html">Excel Import</a>
+        <a href="/admin/results.html">Results</a>
+      </nav>
+    </aside>
+
+    <main class="admin-main">
+      <header class="admin-topbar">
+        <div>
+          <p class="page-subtitle">Subject management</p>
+          <h1>Subjects</h1>
+        </div>
+
+        <button class="btn btn-primary" id="addBtn">Add Subject</button>
+      </header>
+
+      <div id="alert"></div>
+
+      <section aria-labelledby="subjectsTableTitle">
+        <div class="section-heading">
+          <h2 id="subjectsTableTitle">All subjects</h2>
+          <p>Create and manage the subjects used across your tests.</p>
+        </div>
+
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="modalTitle">Add Subject</h3>
+        <button type="button" class="modal-close" id="cancelBtn" aria-label="Close modal">×</button>
+      </div>
+
+      <form id="subjectForm">
+        <input type="hidden" id="subjectId" />
+
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" id="name" required />
+        </div>
+
+        <div class="form-group">
+          <label for="description">Description</label>
+          <textarea id="description" rows="3"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="icon">Icon (emoji)</label>
+          <input type="text" id="icon" value="📚" />
+        </div>
+
+        <div class="form-group">
+          <label for="color">Color</label>
+          <input type="color" id="color" value="#4f46e5" />
+        </div>
+
+        <div class="form-group checkbox-group">
+          <label for="isActive">
+            <input type="checkbox" id="isActive" checked />
+            Active
+          </label>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" id="cancelBtnBottom">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="/admin/js/admin-api.js"></script>
+  <script src="/admin/js/subjects.js"></script>
+</body>
+</html>

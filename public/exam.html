@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Exam - Online Exam Portal</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body class="exam-mode">
+  <div id="tabWarning" class="tab-warning hidden">Warning: Do not switch tabs during the exam.</div>
+
+  <header class="exam-topbar">
+    <div>
+      <h1 id="examTitle">Exam</h1>
+      <span id="examProgress">Q 1/1</span>
+    </div>
+    <div class="exam-timer" id="timerDisplay">00:00</div>
+  </header>
+
+  <div class="exam-layout">
+    <aside class="exam-sidebar">
+      <h3>Questions</h3>
+      <div id="questionNav" class="question-nav"></div>
+    </aside>
+
+    <main class="exam-main">
+      <div id="alert"></div>
+      <div id="questionArea" class="question-area"></div>
+      <div class="exam-controls">
+        <button class="btn btn-secondary" id="prevBtn">Previous</button>
+        <button class="btn btn-secondary" id="markBtn">Mark for Review</button>
+        <button class="btn btn-secondary" id="nextBtn">Next</button>
+        <button class="btn btn-primary" id="submitBtn">Submit Exam</button>
+      </div>
+    </main>
+  </div>
+
+  <script src="/js/student-api.js"></script>
+  <script src="/js/exam.js"></script>
+</body>
+</html>

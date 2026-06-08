@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tests - Online Exam Portal</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <header class="portal-header">
+    <div class="container portal-topbar">
+      <div class="brand">
+        <span class="brand-mark">OE</span>
+        <span class="brand-text">Online Exam Portal</span>
+      </div>
+      <div class="portal-actions">
+        <a href="/dashboard.html" class="btn btn-secondary btn-sm">Dashboard</a>
+        <a href="/history.html" class="btn btn-secondary btn-sm">My Results</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" id="mainContent">
+    <section class="welcome-block">
+      <h1 id="pageTitle">Available Tests</h1>
+      <p id="pageSubtitle">Choose a test to begin.</p>
+    </section>
+    <div id="alert"></div>
+    <div id="testsGrid" class="test-grid"></div>
+  </main>
+
+  <script src="/js/student-api.js"></script>
+  <script src="/js/tests.js"></script>
+</body>
+</html>

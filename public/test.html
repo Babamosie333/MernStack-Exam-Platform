@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Start your MCQ test with a clean timed exam interface." />
+  <title>Take Test</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <a class="skip-link" href="#mainContent">Skip to content</a>
+
+  <header class="hero-header" role="banner">
+    <div class="container">
+      <nav class="topbar" aria-label="Primary navigation">
+        <div class="brand">
+          <span class="brand-mark">MCQ</span>
+          <span class="brand-text">Test Platform</span>
+        </div>
+        <div class="topbar-links">
+          <a href="/tests.html">Browse Tests</a>
+          <a href="/">Home</a>
+        </div>
+      </nav>
+
+      <section class="hero" aria-labelledby="testPageTitle">
+        <div class="hero-content">
+          <div class="eyebrow">Timed exam</div>
+          <h1 id="testPageTitle">Start your test</h1>
+          <p class="hero-text" id="testMeta">
+            Enter your details below, then begin the exam in a distraction-free layout.
+          </p>
+        </div>
+
+        <aside class="hero-panel" aria-label="Exam tips">
+          <div class="hero-card">
+            <span class="hero-card-label">Before you start</span>
+            <strong>Prepare your details</strong>
+            <p>Make sure your name and mobile number are correct before beginning the test.</p>
+          </div>
+
+          <div class="hero-mini-grid">
+            <article class="mini-stat">
+              <span>Flow</span>
+              <strong>Start</strong>
+            </article>
+            <article class="mini-stat">
+              <span>Mode</span>
+              <strong>Timed</strong>
+            </article>
+            <article class="mini-stat">
+              <span>Focus</span>
+              <strong>MCQ</strong>
+            </article>
+            <article class="mini-stat">
+              <span>Save</span>
+              <strong>Local</strong>
+            </article>
+          </div>
+        </aside>
+      </section>
+    </div>
+  </header>
+
+  <div id="timerBar" class="timer-bar hidden" aria-live="polite">
+    <span>Time left: <span id="timerDisplay">--:--</span></span>
+    <button class="btn btn-secondary btn-sm" id="submitBtn" type="button">Submit Test</button>
+  </div>
+
+  <main id="mainContent" class="container">
+    <div id="alert"></div>
+
+    <section id="startSection" class="form-panel" aria-labelledby="startTitle">
+      <div class="section-heading">
+        <h2 id="startTitle">Enter your details</h2>
+        <p>Use your real name and mobile number so the result screen stays accurate.</p>
+      </div>
+
+      <form id="startForm">
+        <div class="form-group">
+          <label for="studentName">Your Name</label>
+          <input type="text" id="studentName" name="studentName" required autocomplete="name" />
+        </div>
+
+        <div class="form-group">
+          <label for="studentMobile">Mobile Number</label>
+          <input
+            type="tel"
+            id="studentMobile"
+            name="studentMobile"
+            required
+            pattern="[0-9+\-\s]{8,15}"
+            autocomplete="tel"
+          />
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">Start Test</button>
+      </form>
+
+      <p style="margin-top:1rem;">
+        <a href="/tests.html">← Back to tests</a>
+      </p>
+    </section>
+
+    <section id="examSection" class="hidden" aria-labelledby="questionsTitle">
+      <div class="section-heading">
+        <h2 id="questionsTitle">Questions</h2>
+        <p>Answer each question carefully, then submit before the timer ends.</p>
+      </div>
+
+      <div id="questionsContainer"></div>
+
+      <button class="btn btn-primary btn-block" id="submitBtnBottom" type="button" style="margin:1.5rem 0;">
+        Submit Test
+      </button>
+    </section>
+  </main>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/test-runner.js"></script>
+</body>
+</html>

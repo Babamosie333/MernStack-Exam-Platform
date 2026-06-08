@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Result - Online Exam Portal</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <header class="portal-header">
+    <div class="container portal-topbar">
+      <div class="brand">
+        <span class="brand-mark">OE</span>
+        <span class="brand-text">Exam Result</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" id="mainContent">
+    <div id="alert"></div>
+    <section id="resultSummary" class="result-summary"></section>
+    <section id="answerReview" class="answer-review"></section>
+    <div class="result-actions">
+      <a href="/dashboard.html" class="btn btn-primary">Go Back to Dashboard</a>
+      <a href="/history.html" class="btn btn-secondary">My Results</a>
+    </div>
+  </main>
+
+  <script src="/js/student-api.js"></script>
+  <script src="/js/result.js"></script>
+</body>
+</html>

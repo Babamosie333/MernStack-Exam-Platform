@@ -3,38 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Admin dashboard for MCQ Test Platform." />
+  <meta name="description" content="Admin dashboard for Online Exam Portal." />
   <title>Dashboard - Admin</title>
   <link rel="stylesheet" href="/css/admin.css" />
-  <style>
-    .dashboard-visual{display:grid;gap:1rem}
-    .dashboard-hero-row{display:flex;justify-content:space-between;align-items:flex-start;padding:.5rem 0 .25rem}
-    .dashboard-greeting h1{font-size:clamp(2rem,4vw,3rem);font-style:italic;font-weight:800;margin:0;color:#1f2a37}
-    .dashboard-greeting p{font-size:1.2rem;font-weight:700;margin-top:.35rem;color:#111827}
-    .dashboard-date{text-align:right}
-    .dashboard-date span{display:block;color:var(--muted);font-style:italic}
-    .dashboard-date strong{font-size:2rem;color:#243b68}
-    .dashboard-grid{display:grid;grid-template-columns:1.6fr .95fr;gap:1rem;align-items:start}
-    .dashboard-card{background:rgba(255,255,255,.96);border:1px solid var(--border);border-radius:18px;box-shadow:var(--shadow)}
-    .dashboard-main-card,.dashboard-bottom-card{padding:1rem 1.15rem 1.2rem}
-    .card-title{font-weight:800;color:#1f2937;margin-bottom:.75rem}
-    .chart-box{width:100%;height:300px}
-    .chart-box-bar{height:240px}
-    .dashboard-metrics{display:grid;grid-template-columns:1fr;gap:.6rem;text-align:center;margin-top:.5rem}
-    .dashboard-metrics strong{display:block;font-size:1.8rem;color:#1f2a37}
-    .dashboard-metrics span{display:block;font-size:.85rem;color:var(--muted)}
-    .dashboard-side-stack{display:grid;gap:1rem}
-    .dashboard-small-card{padding:1rem}
-    .icon-box{display:grid;place-items:center;font-size:2rem;min-height:60px;margin:.4rem 0 .8rem}
-    .action-btn{display:inline-block;width:100%;text-align:center;background:linear-gradient(135deg,#57bfc0,#4fb2b5);color:#fff;padding:.75rem 1rem;border-radius:999px;font-weight:700}
-    @media (max-width:900px){.dashboard-grid{grid-template-columns:1fr}.dashboard-hero-row{flex-direction:column;gap:.75rem}.dashboard-date{text-align:left}}
-  </style>
 </head>
-<body>
+<body class="admin-app">
   <div class="admin-layout">
     <aside class="admin-sidebar">
-      <h2>Admin Panel</h2>
-      <nav aria-label="Admin navigation">
+      <div class="admin-sidebar-head">
+        <a href="/admin/dashboard.html" class="admin-brand admin-brand-link">
+          <span class="admin-brand-mark">OE</span>
+          <span class="admin-brand-stack">
+            <strong>Admin Panel</strong>
+            <span>Exam operations</span>
+          </span>
+        </a>
+      </div>
+
+      <nav aria-label="Admin navigation" class="admin-nav">
         <a href="/admin/dashboard.html" class="active">Dashboard</a>
         <a href="/admin/subjects.html">Subjects</a>
         <a href="/admin/tests.html">Tests</a>
@@ -48,19 +34,42 @@
     <main class="admin-main">
       <header class="admin-topbar">
         <div>
-          <p class="page-subtitle">Overview and recent activity</p>
+          <p class="page-subtitle">Overview and recent platform activity</p>
           <h1>Dashboard</h1>
         </div>
+
         <div class="admin-actions">
           <span id="adminUser" class="admin-user"></span>
           <button class="btn btn-secondary btn-sm" id="logoutBtn">Logout</button>
         </div>
       </header>
 
+      <section class="admin-page-hero">
+        <div class="admin-page-hero-copy">
+          <span class="admin-kicker">Control center</span>
+          <h2>Track platform activity at a glance.</h2>
+          <p>Use this space to monitor overall usage, recent results, and the current health of your exam content.</p>
+        </div>
+        <div class="admin-page-hero-side">
+          <div class="admin-micro-card">
+            <span class="micro-label">Workspace mode</span>
+            <strong>Operations overview</strong>
+            <p>High-level metrics appear first so the most important numbers stay easy to scan.</p>
+          </div>
+        </div>
+      </section>
+
       <div id="statsGrid" class="stats-grid"></div>
 
-      <section class="dashboard-card dashboard-bottom-card" style="margin-top:1rem;padding:1rem;">
-        <div class="card-title">Recent Results</div>
+      <section class="admin-section-card" aria-labelledby="recentResultsTitle">
+        <div class="section-heading section-heading-row">
+          <div>
+            <span class="admin-kicker">Activity feed</span>
+            <h2 id="recentResultsTitle">Recent Results</h2>
+          </div>
+          <p>Latest student submissions across the platform.</p>
+        </div>
+
         <div class="table-wrap">
           <table class="data-table" id="recentTable">
             <thead>

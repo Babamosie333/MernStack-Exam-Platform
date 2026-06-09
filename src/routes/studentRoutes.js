@@ -1,77 +1,167 @@
 const express = require('express');
-const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
 const Student = require('../models/Student');
 
 const router = express.Router();
 
-function signStudentToken(student) {
-  return jwt.sign(
-    { id: student._id, phone: student.phone, name: student.name, role: 'student' },
-    process.env.JWT_SECRET,
-    { expiresIn: '7d' }
-  );
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    type: 'OAuth2',
+    user: process.env.GMAIL_USER,
+    clientId: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    refreshToken: process.env.GOOGLE_REFRESH_TOKEN
+  }
+});
+
+async function sendOtpEmail(email, otpCode) {
+  await transporter.sendMail({
+    from: `"Exam Portal" <${process.env.GMAIL_USER}>`,
+    to: email,
+    subject: 'Your Exam Portal OTP',
+    html: `
+      <div style="font-family: Arial, sans-serif; padding: 16px;">
+        <h2>Your OTP Code</h2>
+        <p>Use the following OTP to verify your login:</p>
+        <h1 style="letter-spacing: 4px;">${otpCode}</h1>
+        <p>This OTP expires in 10 minutes.</p>
+      </div>
+    `
+  });
 }
 
 router.post('/register', async (req, res) => {
   try {
-    const { name, phone, password } = req.body;
-    if (!name || !phone || !password) {
-      return res.status(400).json({ error: 'Name, phone, and password are required' });
-    }
-    if (String(password).length < 6) {
-      return res.status(400).json({ error: 'Password must be at least 6 characters' });
+    const { name, email } = req.body;
+
+    if (!name || !email) {
+      return res.status(400).json({ message: 'Name and email are required' });
     }
 
-    const normalizedPhone = String(phone).trim();
-    const existing = await Student.findOne({ phone: normalizedPhone });
-    if (existing) {
-      return res.status(409).json({ error: 'Phone number already registered' });
+    const normalizedEmail = email.toLowerCase().trim();
+    const otpCode = String(Math.floor(100000 + Math.random() * 900000));
+    const otpExpiresAt = new Date(Date.now() + 10 * 60 * 1000);
+
+    let student = await Student.findOne({ email: normalizedEmail });
+
+    if (student) {
+      student.name = name;
+      student.otpCode = otpCode;
+      student.otpExpiresAt = otpExpiresAt;
+      await student.save();
+    } else {
+      student = await Student.create({
+        name,
+        email: normalizedEmail,
+        otpCode,
+        otpExpiresAt,
+        isVerified: false
+      });
     }
 
-    const passwordHash = await bcrypt.hash(String(password), 10);
-    const student = await Student.create({
-      name: String(name).trim(),
-      phone: normalizedPhone,
-      passwordHash,
+    await sendOtpEmail(normalizedEmail, otpCode);
+
+    return res.status(200).json({
+      message: 'OTP sent successfully'
     });
-
-    const token = signStudentToken(student);
-    res.status(201).json({
-      message: 'Registration successful',
-      token,
-      student: { id: student._id, name: student.name, phone: student.phone },
+  } catch (error) {
+    console.error('Register error:', error);
+    return res.status(500).json({
+      message: error.message
     });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
   }
 });
 
-router.post('/login', async (req, res) => {
+router.post('/resend-otp', async (req, res) => {
   try {
-    const { phone, password } = req.body;
-    if (!phone || !password) {
-      return res.status(400).json({ error: 'Phone and password are required' });
+    const { email } = req.body;
+
+    if (!email) {
+      return res.status(400).json({ message: 'Email is required' });
     }
 
-    const student = await Student.findOne({ phone: String(phone).trim() });
+    const normalizedEmail = email.toLowerCase().trim();
+    const student = await Student.findOne({ email: normalizedEmail });
+
     if (!student) {
-      return res.status(401).json({ error: 'Invalid credentials' });
+      return res.status(404).json({ message: 'Student not found' });
     }
 
-    const valid = await bcrypt.compare(String(password), student.passwordHash);
-    if (!valid) {
-      return res.status(401).json({ error: 'Invalid credentials' });
-    }
+    const otpCode = String(Math.floor(100000 + Math.random() * 900000));
+    const otpExpiresAt = new Date(Date.now() + 10 * 60 * 1000);
 
-    const token = signStudentToken(student);
-    res.json({
-      message: 'Login successful',
-      token,
-      student: { id: student._id, name: student.name, phone: student.phone },
+    student.otpCode = otpCode;
+    student.otpExpiresAt = otpExpiresAt;
+    await student.save();
+
+    await sendOtpEmail(normalizedEmail, otpCode);
+
+    return res.status(200).json({
+      message: 'OTP resent successfully'
     });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+  } catch (error) {
+    console.error('Resend OTP error:', error);
+    return res.status(500).json({
+      message: error.message
+    });
+  }
+});
+
+router.post('/verify-otp', async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+
+    if (!email || !otp) {
+      return res.status(400).json({ message: 'Email and OTP are required' });
+    }
+
+    const normalizedEmail = email.toLowerCase().trim();
+    const student = await Student.findOne({ email: normalizedEmail });
+
+    if (!student) {
+      return res.status(404).json({ message: 'Student not found' });
+    }
+
+    if (!student.otpCode || !student.otpExpiresAt) {
+      return res.status(400).json({ message: 'No OTP found for this student' });
+    }
+
+    if (student.otpCode !== otp) {
+      return res.status(400).json({ message: 'Invalid OTP' });
+    }
+
+    if (student.otpExpiresAt < new Date()) {
+      return res.status(400).json({ message: 'OTP has expired' });
+    }
+
+    student.isVerified = true;
+    student.otpCode = null;
+    student.otpExpiresAt = null;
+    await student.save();
+
+    const token = jwt.sign(
+      { id: student._id, role: 'student' },
+      process.env.JWT_SECRET,
+      { expiresIn: '7d' }
+    );
+
+    return res.status(200).json({
+      message: 'OTP verified successfully',
+      token,
+      student: {
+        id: student._id,
+        name: student.name,
+        email: student.email,
+        isVerified: student.isVerified
+      }
+    });
+  } catch (error) {
+    console.error('Verify OTP error:', error);
+    return res.status(500).json({
+      message: error.message
+    });
   }
 });
 

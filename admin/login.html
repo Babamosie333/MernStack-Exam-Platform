@@ -3,41 +3,76 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Admin login for the MCQ Test Platform." />
-  <title>Admin Login - MCQ Platform</title>
+  <meta name="description" content="Admin login for the Online Exam Portal." />
+  <title>Admin Login - Online Exam Portal</title>
   <link rel="stylesheet" href="/css/admin.css" />
 </head>
-<body class="login-page">
-  <main class="login-shell">
-    <div class="login-box">
-      <div class="login-brand">
-        <span class="brand-mark">VS</span>
-        <div>
-          <h1>Admin Login</h1>
-          <p class="subtitle">MCQ Test Platform</p>
+<body class="admin-auth-page">
+  <a class="skip-link" href="#adminAuthMain">Skip to content</a>
+
+  <main class="admin-auth-shell" id="adminAuthMain">
+    <section class="admin-auth-showcase" aria-labelledby="adminAuthTitle">
+      <div class="admin-auth-copy">
+        <a href="/" class="admin-brand admin-brand-link" aria-label="Back to student site">
+          <span class="admin-brand-mark">OE</span>
+          <span class="admin-brand-stack">
+            <strong>Online Exam Portal</strong>
+            <span>Administration console</span>
+          </span>
+        </a>
+
+        <span class="admin-kicker">Secure control panel</span>
+        <h1 id="adminAuthTitle">Manage exams, subjects, questions, and student results from one refined workspace.</h1>
+        <p>
+          The admin experience is built for quick updates, cleaner data handling, and structured oversight across the entire exam platform.
+        </p>
+
+        <div class="admin-auth-benefits">
+          <article class="admin-auth-benefit">
+            <strong>Centralized control</strong>
+            <span>Manage the full exam pipeline from subject creation to result review.</span>
+          </article>
+          <article class="admin-auth-benefit">
+            <strong>Faster workflows</strong>
+            <span>Keep common actions visible and reduce friction in day-to-day administration.</span>
+          </article>
+          <article class="admin-auth-benefit">
+            <strong>Professional UI</strong>
+            <span>A cleaner admin surface with stronger structure and better readability.</span>
+          </article>
         </div>
       </div>
+    </section>
 
-      <div id="alert"></div>
-
-      <form id="loginForm">
-        <div class="form-group">
-          <label for="username">Username</label>
-          <input type="text" id="username" name="username" required autocomplete="username" />
+    <section class="admin-auth-panel">
+      <div class="admin-auth-card">
+        <div class="admin-auth-head">
+          <span class="admin-kicker">Admin access</span>
+          <h2>Login to continue</h2>
+          <p>Use your admin credentials to open the management dashboard.</p>
         </div>
 
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input type="password" id="password" name="password" required autocomplete="current-password" />
+        <div id="alert"></div>
+
+        <form id="loginForm">
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required autocomplete="username" placeholder="Enter username" />
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required autocomplete="current-password" placeholder="Enter password" />
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block">Login</button>
+        </form>
+
+        <div class="admin-auth-footer">
+          <a href="/" class="text-link">← Back to student site</a>
         </div>
-
-        <button type="submit" class="btn btn-primary btn-block">Login</button>
-      </form>
-
-      <p class="login-back">
-        <a href="/">← Back to student site</a>
-      </p>
-    </div>
+      </div>
+    </section>
   </main>
 
   <script src="/admin/js/admin-api.js"></script>

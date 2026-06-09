@@ -9,24 +9,37 @@
 <body class="exam-mode">
   <div id="tabWarning" class="tab-warning hidden">Warning: Do not switch tabs during the exam.</div>
 
-  <header class="exam-topbar">
-    <div>
-      <h1 id="examTitle">Exam</h1>
-      <span id="examProgress">Q 1/1</span>
+  <header class="exam-topbar exam-topbar-premium">
+    <div class="exam-topbar-main">
+      <div class="exam-heading">
+        <span class="section-kicker">Active attempt</span>
+        <h1 id="examTitle">Exam</h1>
+        <span id="examProgress" class="exam-progress-pill">Q 1/1</span>
+      </div>
+      <div class="exam-timer-wrap">
+        <span class="timer-label">Time Remaining</span>
+        <div class="exam-timer" id="timerDisplay">00:00</div>
+      </div>
     </div>
-    <div class="exam-timer" id="timerDisplay">00:00</div>
   </header>
 
   <div class="exam-layout">
-    <aside class="exam-sidebar">
-      <h3>Questions</h3>
+    <aside class="exam-sidebar exam-sidebar-premium">
+      <div class="exam-sidebar-head">
+        <h3>Question Map</h3>
+        <p>Move quickly between items and keep track of progress.</p>
+      </div>
       <div id="questionNav" class="question-nav"></div>
     </aside>
 
-    <main class="exam-main">
+    <main class="exam-main exam-main-premium">
       <div id="alert"></div>
-      <div id="questionArea" class="question-area"></div>
-      <div class="exam-controls">
+
+      <section class="question-shell">
+        <div id="questionArea" class="question-area"></div>
+      </section>
+
+      <div class="exam-controls exam-controls-premium">
         <button class="btn btn-secondary" id="prevBtn">Previous</button>
         <button class="btn btn-secondary" id="markBtn">Mark for Review</button>
         <button class="btn btn-secondary" id="nextBtn">Next</button>

@@ -3,15 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Manage questions in the MCQ admin panel." />
+  <meta name="description" content="Manage questions in the admin panel." />
   <title>Questions - Admin</title>
   <link rel="stylesheet" href="/css/admin.css" />
 </head>
-<body>
+<body class="admin-app">
   <div class="admin-layout">
     <aside class="admin-sidebar">
-      <h2>Admin Panel</h2>
-      <nav aria-label="Admin navigation">
+      <div class="admin-sidebar-head">
+        <a href="/admin/dashboard.html" class="admin-brand admin-brand-link">
+          <span class="admin-brand-mark">OE</span>
+          <span class="admin-brand-stack">
+            <strong>Admin Panel</strong>
+            <span>Exam operations</span>
+          </span>
+        </a>
+      </div>
+
+      <nav aria-label="Admin navigation" class="admin-nav">
         <a href="/admin/dashboard.html">Dashboard</a>
         <a href="/admin/subjects.html">Subjects</a>
         <a href="/admin/tests.html">Tests</a>
@@ -24,14 +33,22 @@
     <main class="admin-main">
       <header class="admin-topbar">
         <div>
-          <p class="page-subtitle">Manage question bank</p>
+          <p class="page-subtitle">Question bank management</p>
           <h1>Questions</h1>
         </div>
 
         <button class="btn btn-primary" id="addBtn" disabled>Add Question</button>
       </header>
 
-      <section class="admin-toolbar">
+      <section class="admin-page-hero admin-page-hero-tight">
+        <div class="admin-page-hero-copy">
+          <span class="admin-kicker">Question builder</span>
+          <h2>Select a test and manage its question set.</h2>
+          <p>Keep question content organized, editable, and easier to review from a cleaner workspace.</p>
+        </div>
+      </section>
+
+      <section class="admin-toolbar admin-toolbar-card">
         <div class="form-group test-picker">
           <label for="testSelect">Select Test</label>
           <select id="testSelect" title="Select Test"></select>
@@ -44,9 +61,12 @@
   </div>
 
   <div id="modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-    <div class="modal">
+    <div class="modal modal-lg">
       <div class="modal-header">
-        <h3 id="modalTitle">Add Question</h3>
+        <div>
+          <span class="admin-kicker">Question editor</span>
+          <h3 id="modalTitle">Add Question</h3>
+        </div>
         <button type="button" class="modal-close" id="cancelBtn" aria-label="Close modal">×</button>
       </div>
 
@@ -55,7 +75,7 @@
 
         <div class="form-group">
           <label for="questionText">Question</label>
-          <textarea id="questionText" rows="3" required></textarea>
+          <textarea id="questionText" rows="3" required placeholder="Enter the full question"></textarea>
         </div>
 
         <div class="question-options">

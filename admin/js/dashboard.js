@@ -36,7 +36,7 @@
             return `
       <tr>
         <td>${a.studentName}</td>
-        <td>${a.studentMobile}</td>
+        <td>${a.studentId?.email || '-'}</td>
         <td>${subj}</td>
         <td>${test}</td>
         <td>${a.score}/${a.totalMarks} (${a.percentage}%)</td>

@@ -1,6 +1,7 @@
 (async function () {
   const admin = await requireAuth();
   if (!admin) return;
+
   document.getElementById('adminUser').textContent = admin.username;
   document.getElementById('logoutBtn').addEventListener('click', logout);
 
@@ -26,6 +27,7 @@
 
   const recentBody = document.querySelector('#recentTable tbody');
   const rows = stats.recentResults || stats.recentAttempts || [];
+
   recentBody.innerHTML =
     rows.length > 0
       ? rows
@@ -35,7 +37,7 @@
             const pass = a.passed ? 'Pass' : 'Fail';
             return `
       <tr>
-        <td>${a.studentName}</td>
+        <td>${a.studentName || '-'}</td>
         <td>${a.studentId?.email || '-'}</td>
         <td>${subj}</td>
         <td>${test}</td>

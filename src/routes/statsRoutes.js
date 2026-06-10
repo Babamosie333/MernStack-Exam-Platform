@@ -13,6 +13,7 @@ router.get('/admin/stats', verifyAdminToken, async (req, res) => {
     const now = new Date();
     const startOfDay = new Date(now);
     startOfDay.setHours(0, 0, 0, 0);
+
     const startOfWeek = new Date(now);
     startOfWeek.setDate(now.getDate() - now.getDay());
     startOfWeek.setHours(0, 0, 0, 0);
@@ -38,10 +39,11 @@ router.get('/admin/stats', verifyAdminToken, async (req, res) => {
     const recentResults = await Attempt.find({ status: 'submitted' })
       .sort({ submittedAt: -1 })
       .limit(10)
+      .populate('studentId', 'email')
       .populate('testId', 'title')
       .populate('subjectId', 'name')
       .select(
-        'studentName studentMobile score totalMarks percentage passed submittedAt testId subjectId'
+        'studentId studentName score totalMarks percentage passed submittedAt testId subjectId'
       );
 
     res.json({
@@ -64,13 +66,16 @@ router.get('/admin/stats', verifyAdminToken, async (req, res) => {
 router.get('/admin/results', verifyAdminToken, async (req, res) => {
   try {
     const filter = { status: 'submitted' };
+
     if (req.query.testId || req.query.chapterId) {
       filter.testId = req.query.testId || req.query.chapterId;
     }
+
     if (req.query.subjectId) filter.subjectId = req.query.subjectId;
 
     const results = await Attempt.find(filter)
       .sort({ submittedAt: -1 })
+      .populate('studentId', 'email')
       .populate('testId', 'title')
       .populate('subjectId', 'name');
 

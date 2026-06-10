@@ -11,12 +11,15 @@ router.get('/student', verifyStudentToken, async (req, res) => {
       status: 'submitted',
     })
       .sort({ submittedAt: -1 })
-      .populate('testId', 'title durationMinutes')
+      .populate('studentId', 'email')
+      .populate('testId', 'title durationMinutes passingMarks')
       .populate('subjectId', 'name');
 
     res.json(
       results.map((r) => ({
         id: r._id,
+        studentName: r.studentName,
+        email: r.studentId?.email || '',
         subject: r.subjectId?.name || '',
         chapter: r.testId?.title || '',
         obtainedMarks: r.score,
@@ -34,13 +37,15 @@ router.get('/student', verifyStudentToken, async (req, res) => {
 router.get('/student/:id', verifyStudentToken, async (req, res) => {
   try {
     const attempt = await Attempt.findById(req.params.id)
+      .populate('studentId', 'email')
       .populate('testId', 'title passingMarks')
       .populate('subjectId', 'name');
 
     if (!attempt || attempt.status !== 'submitted') {
       return res.status(404).json({ error: 'Result not found' });
     }
-    if (String(attempt.studentId) !== String(req.student.id)) {
+
+    if (String(attempt.studentId?._id || attempt.studentId) !== String(req.student.id)) {
       return res.status(403).json({ error: 'Access denied' });
     }
 
@@ -53,12 +58,16 @@ router.get('/student/:id', verifyStudentToken, async (req, res) => {
 router.get('/admin', verifyAdminToken, async (req, res) => {
   try {
     const filter = { status: 'submitted' };
+
     if (req.query.subjectId) filter.subjectId = req.query.subjectId;
+
     if (req.query.chapterId || req.query.testId) {
       filter.testId = req.query.chapterId || req.query.testId;
     }
+
     if (req.query.passed === 'true') filter.passed = true;
     if (req.query.passed === 'false') filter.passed = false;
+
     if (req.query.from || req.query.to) {
       filter.submittedAt = {};
       if (req.query.from) filter.submittedAt.$gte = new Date(req.query.from);
@@ -71,6 +80,7 @@ router.get('/admin', verifyAdminToken, async (req, res) => {
 
     let results = await Attempt.find(filter)
       .sort({ submittedAt: -1 })
+      .populate('studentId', 'email')
       .populate('testId', 'title')
       .populate('subjectId', 'name');
 
@@ -79,7 +89,7 @@ router.get('/admin', verifyAdminToken, async (req, res) => {
       results = results.filter(
         (r) =>
           (r.studentName || '').toLowerCase().includes(search) ||
-          (r.studentMobile || '').toLowerCase().includes(search)
+          (r.studentId?.email || '').toLowerCase().includes(search)
       );
     }
 
@@ -87,7 +97,7 @@ router.get('/admin', verifyAdminToken, async (req, res) => {
       results.map((r) => ({
         id: r._id,
         studentName: r.studentName,
-        phone: r.studentMobile,
+        email: r.studentId?.email || '',
         subject: r.subjectId?.name || '',
         chapter: r.testId?.title || '',
         obtainedMarks: r.score,
@@ -105,10 +115,12 @@ router.get('/admin', verifyAdminToken, async (req, res) => {
 router.get('/admin/:id', verifyAdminToken, async (req, res) => {
   try {
     const attempt = await Attempt.findById(req.params.id)
+      .populate('studentId', 'email')
       .populate('testId', 'title passingMarks')
       .populate('subjectId', 'name');
 
     if (!attempt) return res.status(404).json({ error: 'Result not found' });
+
     res.json(formatDetail(attempt));
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -118,6 +130,7 @@ router.get('/admin/:id', verifyAdminToken, async (req, res) => {
 router.get('/admin/export/csv', verifyAdminToken, async (req, res) => {
   try {
     const filter = { status: 'submitted' };
+
     if (req.query.subjectId) filter.subjectId = req.query.subjectId;
     if (req.query.chapterId || req.query.testId) {
       filter.testId = req.query.chapterId || req.query.testId;
@@ -125,14 +138,16 @@ router.get('/admin/export/csv', verifyAdminToken, async (req, res) => {
 
     const results = await Attempt.find(filter)
       .sort({ submittedAt: -1 })
+      .populate('studentId', 'email')
       .populate('testId', 'title')
       .populate('subjectId', 'name');
 
-    const header = 'Student Name,Phone,Subject,Chapter,Score,Total Marks,Percentage,Pass/Fail,Date';
+    const header = 'Student Name,Email,Subject,Chapter,Score,Total Marks,Percentage,Pass/Fail,Date';
+
     const rows = results.map((r) => {
       const cols = [
         r.studentName,
-        r.studentMobile,
+        r.studentId?.email || '',
         r.subjectId?.name,
         r.testId?.title,
         r.score,
@@ -141,6 +156,7 @@ router.get('/admin/export/csv', verifyAdminToken, async (req, res) => {
         r.passed ? 'Pass' : 'Fail',
         r.submittedAt ? new Date(r.submittedAt).toISOString() : '',
       ];
+
       return cols.map((c) => `"${String(c ?? '').replace(/"/g, '""')}"`).join(',');
     });
 
@@ -156,7 +172,7 @@ function formatDetail(attempt) {
   return {
     id: attempt._id,
     studentName: attempt.studentName,
-    phone: attempt.studentMobile,
+    email: attempt.studentId?.email || '',
     subject: attempt.subjectId?.name || '',
     chapter: attempt.testId?.title || '',
     obtainedMarks: attempt.score,

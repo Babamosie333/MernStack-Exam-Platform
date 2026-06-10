@@ -67,7 +67,15 @@ router.post('/register', async (req, res) => {
       message: 'OTP sent successfully'
     });
   } catch (error) {
-    console.error('Register error:', error);
+    console.error('Register error full:', {
+      message: error.message,
+      code: error.code,
+      response: error.response,
+      responseCode: error.responseCode,
+      command: error.command,
+      stack: error.stack
+    });
+
     return res.status(500).json({
       message: error.message
     });

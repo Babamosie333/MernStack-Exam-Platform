@@ -53,14 +53,14 @@
           <p>Use the same email address during registration and verification.</p>
         </div>
 
-        <div class="auth-tabs">
-          <button type="button" class="auth-tab active" data-tab="register">Register</button>
-          <button type="button" class="auth-tab" data-tab="verify">Verify OTP</button>
+        <div class="auth-tabs" role="tablist" aria-label="Authentication mode">
+          <button type="button" class="auth-tab active" role="tab" aria-selected="true" aria-controls="registerForm" id="registerTab" data-tab="register">Register</button>
+          <button type="button" class="auth-tab" role="tab" aria-selected="false" aria-controls="verifyForm" id="verifyTab" data-tab="verify">Verify OTP</button>
         </div>
 
-        <div id="alert"></div>
+        <div id="alert" aria-live="polite"></div>
 
-        <form id="registerForm" class="auth-form">
+        <form id="registerForm" class="auth-form" role="tabpanel" aria-labelledby="registerTab">
           <div class="form-group">
             <label for="regName">Full Name</label>
             <input type="text" id="regName" required autocomplete="name" placeholder="Enter your full name" />
@@ -82,7 +82,7 @@
 
           <div class="form-group">
             <label for="verifyOtp">OTP Code</label>
-            <input type="text" id="verifyOtp" required inputmode="numeric" placeholder="Enter 6-digit OTP" />
+            <input type="text" id="verifyOtp" required inputmode="numeric" autocomplete="one-time-code" placeholder="Enter 6-digit OTP" />
           </div>
 
           <button type="submit" class="btn btn-primary btn-block">Verify & Login</button>

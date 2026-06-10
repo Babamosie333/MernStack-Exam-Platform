@@ -11,8 +11,8 @@
   <a class="skip-link" href="#adminAuthMain">Skip to content</a>
 
   <main class="admin-auth-shell" id="adminAuthMain">
-    <section class="admin-auth-showcase" aria-labelledby="adminAuthTitle">
-      <div class="admin-auth-copy">
+    <section class="admin-auth-visual" aria-labelledby="adminAuthTitle">
+      <div class="admin-auth-visual-inner">
         <a href="/" class="admin-brand admin-brand-link" aria-label="Back to student site">
           <span class="admin-brand-mark">OE</span>
           <span class="admin-brand-stack">
@@ -21,48 +21,68 @@
           </span>
         </a>
 
-        <span class="admin-kicker">Secure control panel</span>
-        <h1 id="adminAuthTitle">Manage exams, subjects, questions, and student results from one refined workspace.</h1>
-        <p>
-          The admin experience is built for quick updates, cleaner data handling, and structured oversight across the entire exam platform.
+        <div class="admin-auth-badge">Secure access</div>
+
+        <h1 id="adminAuthTitle">Manage exams, questions, students, and results from one clean workspace.</h1>
+
+        <p class="admin-auth-lead">
+          A focused admin surface for fast updates, clear review, and better control across the exam platform.
         </p>
 
-        <div class="admin-auth-benefits">
-          <article class="admin-auth-benefit">
-            <strong>Centralized control</strong>
-            <span>Manage the full exam pipeline from subject creation to result review.</span>
+        <div class="admin-auth-metrics" aria-label="Admin highlights">
+          <article class="admin-auth-metric">
+            <strong>01</strong>
+            <span>Centralized control</span>
           </article>
-          <article class="admin-auth-benefit">
-            <strong>Faster workflows</strong>
-            <span>Keep common actions visible and reduce friction in day-to-day administration.</span>
+          <article class="admin-auth-metric">
+            <strong>02</strong>
+            <span>Faster workflows</span>
           </article>
-          <article class="admin-auth-benefit">
-            <strong>Professional UI</strong>
-            <span>A cleaner admin surface with stronger structure and better readability.</span>
+          <article class="admin-auth-metric">
+            <strong>03</strong>
+            <span>Cleaner oversight</span>
           </article>
+        </div>
+
+        <div class="admin-auth-note">
+          Built for a premium dashboard feel with minimal noise and stronger hierarchy.
         </div>
       </div>
     </section>
 
-    <section class="admin-auth-panel">
+    <section class="admin-auth-panel" aria-label="Admin login form">
       <div class="admin-auth-card">
-        <div class="admin-auth-head">
+        <div class="admin-auth-card-head">
           <span class="admin-kicker">Admin access</span>
           <h2>Login to continue</h2>
           <p>Use your admin credentials to open the management dashboard.</p>
         </div>
 
-        <div id="alert"></div>
+        <div id="alert" aria-live="polite"></div>
 
-        <form id="loginForm">
+        <form id="loginForm" class="admin-auth-form">
           <div class="form-group">
             <label for="username">Username</label>
-            <input type="text" id="username" name="username" required autocomplete="username" placeholder="Enter username" />
+            <input
+              type="text"
+              id="username"
+              name="username"
+              required
+              autocomplete="username"
+              placeholder="Enter username"
+            />
           </div>
 
           <div class="form-group">
             <label for="password">Password</label>
-            <input type="password" id="password" name="password" required autocomplete="current-password" placeholder="Enter password" />
+            <input
+              type="password"
+              id="password"
+              name="password"
+              required
+              autocomplete="current-password"
+              placeholder="Enter password"
+            />
           </div>
 
           <button type="submit" class="btn btn-primary btn-block">Login</button>

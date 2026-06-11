@@ -16,6 +16,7 @@
 
     const formData = new FormData();
     formData.append('file', fileInput.files[0]);
+    formData.append('status', 'active'); // or '1' if your backend uses 1 = active
 
     try {
       const res = await fetch('/api/questions/import-excel', {
@@ -23,6 +24,7 @@
         credentials: 'include',
         body: formData,
       });
+
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Import failed');
 

@@ -14,7 +14,7 @@
       <tr>
         <td>${s.name}</td>
         <td>${s.description || '-'}</td>
-        <td><span class="badge ${s.isActive ? 'badge-active' : 'badge-inactive'}">${s.isActive ? 'Active' : 'Inactive'}</span></td>
+        <td><span class="badge ${s.isActive ? 'badge-active' : 'badge-inactive'}">${s.isActive ? 'Active' : 'Active'}</span></td>
         <td class="table-actions">
           <button class="btn btn-secondary btn-sm" data-edit="${s._id}">Edit</button>
           <button class="btn btn-danger btn-sm" data-delete="${s._id}">Delete</button>

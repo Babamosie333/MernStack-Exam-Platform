@@ -1,3 +1,4 @@
+// admin/js/subjects.js
 (async function () {
   await requireAuth();
   const tableBody = document.getElementById('tableBody');
@@ -14,7 +15,7 @@
       <tr>
         <td>${s.name}</td>
         <td>${s.description || '-'}</td>
-        <td><span class="badge ${s.isActive ? 'badge-active' : 'badge-inactive'}">${s.isActive ? 'Active' : 'Active'}</span></td>
+        <td><span class="badge ${s.isActive ? 'badge-active' : 'badge-inactive'}">${s.isActive ? 'Active' : 'Inactive'}</span></td>
         <td class="table-actions">
           <button class="btn btn-secondary btn-sm" data-edit="${s._id}">Edit</button>
           <button class="btn btn-danger btn-sm" data-delete="${s._id}">Delete</button>
@@ -68,7 +69,9 @@
   }
 
   document.getElementById('addBtn').addEventListener('click', openAdd);
-  document.getElementById('cancelBtn').addEventListener('click', () => modal.classList.add('hidden'));
+  document.getElementById('cancelBtn').addEventListener('click', () =>
+    modal.classList.add('hidden')
+  );
 
   document.getElementById('subjectForm').addEventListener('submit', async (e) => {
     e.preventDefault();
